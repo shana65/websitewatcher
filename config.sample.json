@@ -1,0 +1,114 @@
+{
+  "mail": {
+    "server": "localhost",
+    "port": 25,
+    "from": {
+      "name": "websitewatcher",
+      "mail": "a@a.com"
+    },
+    "to": [
+      "bbb@bbb.com"
+    ],
+    "user": "",
+    "password": "",
+    "retries": 3
+  },
+  "proxy": {
+    "url": "http://proxy.doesnotexist:8080",
+    "username": "user",
+    "password": "pass",
+    "no_proxy": "no_proxy"
+  },
+  "timeout": "25s",
+  "retry": {
+    "count": 3,
+    "delay": "10s"
+  },
+  "database": "db.sqlite3",
+  "location": "Europe/Vienna",
+  "watches": [
+    {
+      "name": "Jokes",
+      "cron": "@every 5s",
+      "url": "https://icanhazdadjoke.com",
+      "header": {
+        "Accept": "text/plain"
+      }
+    },
+    {
+      "name": "JSON Example",
+      "url": "https://domain.com/test.json",
+      "jq": ".result | .[] | select(.name==\"test\")",
+      "webhooks": [
+        {
+          "url": "https://example.com/webhook",
+          "method": "POST",
+          "header": {
+            "Content-Type": "application/json"
+          },
+          "useragent": "custom useragent"
+        }
+      ]
+    },
+    {
+      "name": "Golang Downloads",
+      "url": "https://go.dev/dl/?mode=json",
+      "jq": ".[] | .version",
+      "additional_to": [
+        "person@example.com"
+      ],
+      "trim_whitespace": true,
+      "remove_empty_lines": true
+    },
+    {
+      "name": "aaa",
+      "cron": "@hourly",
+      "url": "http://aaa.com",
+      "extract_body": true,
+      "additional_to": [
+        "ddd@ddd.com",
+        "eee@eee.com"
+      ],
+      "no_errormail_on_statuscode": [
+        500
+      ],
+      "skip_soft_error_patterns": false,
+      "retry_on_match": [
+        "error"
+      ]
+    },
+    {
+      "name": "bbb",
+      "cron": "@daily",
+      "url": "http://bbb.com",
+      "header": {
+        "X-Auth-Key": "1234"
+      },
+      "disabled": true,
+      "pattern": "test = (.+)",
+      "retry_on_match": [
+        "error on calling",
+        "error executing .+ in memory"
+      ],
+      "replaces": [
+        {
+          "pattern": "test .+",
+          "replace_with": "test124"
+        },
+        {
+          "pattern": "test",
+          "replace_with": ""
+        }
+      ]
+    },
+    {
+      "name": "ccc",
+      "url": "http://ccc.com",
+      "header": {
+        "Content-Type": "text/plain;charset=UTF-8"
+      },
+      "method": "POST",
+      "body": "{\"page\":1}"
+    }
+  ]
+}
